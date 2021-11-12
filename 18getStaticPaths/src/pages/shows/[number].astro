@@ -1,0 +1,26 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro'
+
+export async function getStaticPaths() {
+	const response = await fetch('https://syntax.fm/api/shows')
+	const shows = await response.json()
+	const paths = shows.map(show => {
+		return {
+			params: {
+				number: show.number.toString(),
+			}
+		}
+	})
+	return paths
+}
+
+const { number } = Astro.request.params
+
+const showResponse = await fetch(`https://syntax.fm/api/shows/${number}`)
+const show = await showResponse.json()
+
+---
+
+<MainLayout>
+	<h1>#{show.number} - {show.title}</h1>
+</MainLayout>

@@ -1,0 +1,23 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import BlogHeader from '../components/BlogHeader.astro';
+
+let title = 'My Astro Site';
+let description = 'The perfect starter for your perfect blog.';
+let permalink = 'https://example.com/';
+---
+
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} permalink={permalink}  />
+	</head>
+	<body>
+		<BlogHeader />
+		<div class="layout">
+			<div class="content">
+				<slot />
+			</div>
+		</div>
+	</body>
+</html>

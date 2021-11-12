@@ -1,0 +1,52 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import BlogHeader from '../components/BlogHeader.astro';
+
+let title = 'My Astro Site';
+let description = 'The perfect starter for your perfect blog.';
+let permalink = 'https://example.com/';
+---
+
+<style>
+	body {
+		width: 100%;
+		display: grid;
+		grid-template-rows: 3.5rem 1fr;
+		--gutter: 0.5rem;
+		--doc-padding: 2rem;
+	}
+
+	header {
+		width: 100%;
+		height: 100%;
+		background-color: var(--theme-bg-offset);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+
+	.content {
+		margin-top: 4rem;
+		margin-bottom: 8rem;
+	}
+
+	.content :global(main > * + *) {
+		margin-top: 1rem;
+	}
+
+</style>
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} permalink={permalink}  />
+	</head>
+	<body>
+		<BlogHeader />
+		<div class="layout">
+			<div class="content">
+				<slot />
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+---
+// FRONTMATTER
+// Component Imports
+import { Markdown }  from 'astro/components'
+import MainLayout from '../layouts/MainLayout.astro';
+import BlogPostPreview from '../components/BlogPostPreview.astro';
+import Test from '../components/Test.jsx'
+
+interface BlogPost {
+	publishDate: string
+	title: string
+
+}
+
+let title = 'Example Blog';
+let description = 'The perfect starter for your perfect blog.';
+
+let allPosts = Astro.fetchContent<BlogPost>('./posts/*.md')
+allPosts = allPosts.sort((a, b) => {
+	return new Date(b.publishDate).valueOf() - new Date(a.publishDate).valueOf()
+})
+
+---
+
+<style>
+
+	.intro {
+	padding-bottom: 4rem;
+	margin-bottom: 2rem;
+	border-bottom: 4px solid var(--theme-divider);
+	}
+
+	.intro > * {
+	margin: 0;
+	}
+
+	.latest {
+	font-size: 2.5rem;
+	font-weight: 700;
+	}
+</style>
+
+<MainLayout content={{title}}>
+	<!-- Sever Side Only -->
+	<Test />
+	<!-- Hydrates on load -->
+	<!-- <Test client:load  /> -->
+	<!-- Hydrates after main thread is free -->
+	<!-- <Test client:idle  /> -->
+	<!-- Hydrates as it's in viewport aka LazyLoading-->
+	<!-- <Test client:visible  /> -->
+	<!-- Hydrate when matching media query -->
+	<!-- <Test client:media={'(max-width: 600px)'}  /> -->
+	<!-- Only renders on the client -->
+	<!-- <Test client:only  /> -->
+
+
+	<section class="intro">
+		<h1 class="latest">{title}</h1>
+		<p>{description}</p>
+	</section>
+
+	<Markdown>
+		### Learn a bit more about us 
+
+		[Here](/about)
+	</Markdown>
+
+	<section>
+		{allPosts.map(p => <BlogPostPreview post={p} />)}
+	</section>
+</MainLayout>

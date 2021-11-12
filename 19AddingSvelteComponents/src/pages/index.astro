@@ -1,0 +1,21 @@
+---
+import { Debug } from 'astro/components'
+import MainLayout from '../layouts/MainLayout.astro'
+
+// Top level await is in by default!
+const response = await fetch('https://syntax.fm/api/shows')
+const shows = await response.json()
+
+---
+<MainLayout>
+	<h2>Syntax Episodes</h2>
+	<ul>
+		{shows.map(show => (
+			<li>
+				<a href={`/shows/${show.number}`}>
+					#{show.number} - {show.title}
+				</a>
+			</li>
+		))}
+	</ul>
+</MainLayout>
